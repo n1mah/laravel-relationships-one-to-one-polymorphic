@@ -22,4 +22,11 @@ class UserRules
         $rules['password'] = array_merge(['required'], $rules['password']);
         return $rules;
     }
+    public static function update(int $userId): array
+    {
+        $rules = self::baseRules();
+        $rules['name'] = array_merge(['sometimes', 'required'], $rules['name']);
+        $rules['email'] = array_merge(['sometimes', 'required', "unique:users,email,{$userId}"], $rules['email']);
+        return $rules;
+    }
 }

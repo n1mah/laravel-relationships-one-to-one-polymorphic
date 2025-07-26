@@ -22,4 +22,10 @@ class PostRules
         return $rules;
 
     }
+    public static function update(int $postId): array
+    {
+        $rules = self::baseRules();
+        $rules['title'] = array_merge(['sometimes', 'required', "unique:posts,title,{$postId}"], $rules['title']);
+        return $rules;
+    }
 }

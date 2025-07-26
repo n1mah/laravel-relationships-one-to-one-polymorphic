@@ -1,61 +1,175 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" alt="Laravel Logo">
+  </a>
 </p>
 
-## About Laravel
+# Laravel One-to-One Polymorphic Relations
+```( Laravel 12 )```
+>A robust Laravel 12 project demonstrating a clean implementation of **one-to-one polymorphic relationships** with comprehensive features including image upload, validation rules, and service layers.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Table of Contents
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Requirements](#requirements)
+- [Image Upload Service](#image-upload-service)
+- [Routing](#routing)
+- [License](#license)
+- [Connect with Me](#Connect-with-Me)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Overview
 
-## Laravel Sponsors
+This project is built on Laravel 12 and showcases how to implement a **polymorphic one-to-one relationship** between models (`User`, `Post`, `Image`). It includes:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Polymorphic image association with `User` and `Post` models.
+- Dedicated service class for handling image uploads with disk and directory abstraction.
+- Modular validation rules split into reusable classes.
+- RESTful resource controllers for managing CRUD operations.
+- Blade templates for frontend CRUD interfaces.
+- Use of Laravel’s form requests for clean validation.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Features
 
-## Contributing
+- **One-to-One Polymorphic Relationship** between models and images.
+- **Image upload management** using Laravel’s filesystem and a dedicated service.
+- **Robust validation** with context-aware rules (`create` vs `update`).
+- **Clean, maintainable codebase** with separation of concerns.
+- **Storage linking** for public access to uploaded files.
+- **Resourceful routing** and controller actions.
+- Easily extendable for additional models or functionality.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Installation
 
-## Security Vulnerabilities
+```bash
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+composer install
+
+cp .env.example .env
+php artisan key:generate
+
+php artisan migrate
+php artisan storage:link
+
+php artisan serve
+
+```
+
+
+---
+
+## Usage
+
+- Access the application at http://localhost:8000 after running the server.
+- Use the resource routes to manage posts and users, including image uploads.
+- Use the provided Blade views for creating, editing, listing, and showing records.
+
+
+---
+
+
+## Project Structure
+
+````
+
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── PostController.php
+│   │   └── UserController.php
+│   ├── Requests/
+│   │   ├── StorePostRequest.php
+│   │   ├── UpdatePostRequest.php
+│   │   ├── StoreUserRequest.php
+│   │   └── UpdateUserRequest.php
+├── Models/
+│   ├── Image.php
+│   ├── Post.php
+│   └── User.php
+├── Rules/
+│   ├── Common/
+│   │   └── ImageRules.php
+│   ├── PostRules.php
+│   └── UserRules.php
+├── Services/
+│   └── ImageService.php
+routes/
+└── web.php
+resources/
+└── views/
+````
+---
+
+
+## Requirements
+
+- PHP >= 8.3
+- Laravel 12.x
+- Composer
+- Database (MySQL)
+
+---
+
+## Image Upload Service
+ImageService encapsulates upload logic:
+
+>Stores the file on the configured disk (public by default).
+> 
+>Saves image record with polymorphic relation to the associated model.
+> 
+>Handles file path and storage location abstractly for flexibility.
+
+---
+
+## Routing
+Resourceful routes are defined for easy CRUD operations:
+
+```php
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
+
+Route::resource('posts', PostController::class);
+Route::resource('users', UserController::class);
+```
+
+---
+
+## Image Upload Service
+ImageService encapsulates upload logic:
+
+Stores the file on the configured disk (public by default).
+
+Saves image record with polymorphic relation to the associated model.
+
+Handles file path and storage location abstractly for flexibility.
+
+---
 ## License
+>This project is open-source and free to use.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+## Connect with Me
+
+You can find more of my work or get in touch through the links below:
+
+🔗 GitHub: [`https://github.com/n1mah`](https://github.com/n1mah)
+
+🌐 Portfolio: [`88nima.com`](https://88nima.com/)
+
+---

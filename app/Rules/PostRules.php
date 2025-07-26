@@ -5,12 +5,21 @@ use App\Rules\Common\ImageRules;
 
 class PostRules
 {
-    public static function create(): array
+
+    protected static function baseRules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['string', 'max:255'],
             'body' => ['nullable', 'string'],
             'image' => ImageRules::optionalImage(),
         ];
+    }
+
+    public static function create(): array
+    {
+        $rules = self::baseRules();
+        $rules['title'] = array_merge(['required', 'unique:posts,title'], $rules['title']);
+        return $rules;
+
     }
 }

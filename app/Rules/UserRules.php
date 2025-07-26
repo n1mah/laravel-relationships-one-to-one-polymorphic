@@ -27,6 +27,7 @@ class UserRules
         $rules = self::baseRules();
         $rules['name'] = array_merge(['sometimes', 'required'], $rules['name']);
         $rules['email'] = array_merge(['sometimes', 'required', "unique:users,email,{$userId}"], $rules['email']);
+        $rules['password'] = array_merge(['sometimes', 'nullable'], $rules['password']);
         return $rules;
     }
 }

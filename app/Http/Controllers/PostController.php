@@ -51,4 +51,19 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('posts.index');
     }
+
+    public function attach_image_test(Post $post)
+    {
+        $post = $post->find(1);
+        $post->image()->create([
+            'path'=>'/images/posts/1.jpg'
+        ]);
+        return $post;
+    }
+    public function attach_image_test_get(Post $post)
+    {
+        $post = $post->find(1);
+        return $post->image;
+    }
+
 }
